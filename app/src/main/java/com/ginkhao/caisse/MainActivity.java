@@ -15,8 +15,7 @@ import android.webkit.WebViewClient;
 public class MainActivity extends Activity {
 
     // ← UNE SEULE LIGNE À CHANGER PAR RESTAURANT
-    private static final String URL_CAISSE = "https://gin-khao-la-capelette.netlify.app/pos.html?kiosque=1";
-
+private static final String URL_CAISSE = "https://gin-khao-la-capelette.netlify.app/pos.html?kiosque=1&relais=http://192.168.1.22:9100";
     private WebView web;
 
     @SuppressLint("SetJavaScriptEnabled")
