@@ -1,6 +1,7 @@
 package com.ginkhao.caisse;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,17 +12,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-/**
- * Gin Khao Caisse — un cadre Android plein écran autour de la caisse web (pos.html).
- *
- *  • charge URL_CAISSE (une URL par restaurant : changer la constante, relancer le build) ;
- *  • autorise le contenu mixte : la page (https) parle au Pi d'impression (http, réseau local) ;
- *  • plein écran immersif, écran toujours allumé, bouton Retour neutralisé (pas de sortie accidentelle) ;
- *  • la page vient toujours de Netlify : les mises à jour de la caisse sont automatiques.
- */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     // ← UNE SEULE LIGNE À CHANGER PAR RESTAURANT
     private static final String URL_CAISSE = "https://gin-khao-la-capelette.netlify.app/pos.html?kiosque=1";
@@ -45,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         s.setLoadWithOverviewMode(true);
         s.setUseWideViewPort(true);
         s.setCacheMode(WebSettings.LOAD_DEFAULT);
-        s.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);   // 🖨️ https → http (Pi)
+        s.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
         CookieManager cm = CookieManager.getInstance();
         cm.setAcceptCookie(true);
@@ -55,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                // tout reste dans le cadre (pas de navigateur externe)
                 return false;
             }
         });
@@ -81,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Retour = jamais quitter la caisse. Retour arrière dans la page si possible, sinon rien.
         if (web != null && web.canGoBack()) web.goBack();
     }
 }
